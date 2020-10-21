@@ -2,13 +2,18 @@
 
 namespace App\Entity;
 
-use App\Repository\CategoryRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\CategoryRepository;
+use Doctrine\Common\Collections\Collection;
+use Symfony\Component\HttpFoundation\File\File;
+use Doctrine\Common\Collections\ArrayCollection;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Component\Validator\Constraints\DateTime;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
  * @ORM\Entity(repositoryClass=CategoryRepository::class)
+ * @Vich\Uploadable
  */
 class Category
 {
@@ -30,32 +35,37 @@ class Category
     private $description;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $imageCategory;
-
-    /**
-     * @ORM\Column(type="string", length=255)
+     * @Vich\UploadableField(mapping="cathegory_image", fileNameProperty="image")
+     * @var File
      */
     private $imageFile;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * 
+     */
+    private $image;
+
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
      */
     private $updateImage;
 
     /**
-     * @ORM\OneToMany(targetEntity=Books::class, mappedBy="category")
+     * @ORM\OneToMany(targetEntity=Books::class, cascade={"all"}, mappedBy="category")
      */
     private $book;
 
     public function __construct()
     {
         $this->book = new ArrayCollection();
+        $this->updateImage = new \DateTime('now');
+    
     }
     public function __toString()
     {
-        return '' . $this->title;
+        return ''.$this->name;
     }
 
     public function getId(): ?int
@@ -68,16 +78,16 @@ class Category
         return $this->name;
     }
 
-    public function getDescription(): ?string
-    {
-        return $this->description;
-    }
-
     public function setName(string $name): self
     {
         $this->name = $name;
 
         return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
     }
 
     public function setDescription(string $description): self
@@ -87,36 +97,45 @@ class Category
         return $this;
     }
 
-    public function getImageCategory(): ?string
+    /**
+     * Undocumented function
+     *
+     * @return string|null
+     */
+    public function getImage(): ?string
     {
-        return $this->imageCategory;
+        return $this->image;
     }
 
-    public function setImageCategory(string $imageCategory): self
+    /**
+     * Undocumented function
+     *
+     * @param string|null $image
+     * @return $this
+     */
+    public function setImage(? string $image): self
     {
-        $this->imageCategory = $imageCategory;
-
+        $this->image = $image;
         return $this;
+
     }
-
-    public function getImageFile(): ?string
-    {
-        return $this->imageFile;
-    }
-
-    public function setImageFile(string $imageFile): self
-    {
-        $this->imageFile = $imageFile;
-
-        return $this;
-    }
-
-    public function getUpdateImage(): ?\DateTimeInterface
+    /**
+     * Undocumented function
+     *
+     * @return \DateTime|null
+     */
+    public function getUpdateImage(): ?\DateTime
     {
         return $this->updateImage;
     }
 
-    public function setUpdateImage(\DateTimeInterface $updateImage): self
+    /**
+     * Undocumented function
+     *
+     * @param \DateTime|null $updateImage
+     * @return $this
+     */
+    public function setUpdateImage(?\DateTime $updateImage): self
     {
         $this->updateImage = $updateImage;
 
@@ -153,4 +172,28 @@ class Category
 
         return $this;
     }
+
+    /**
+     *
+     * @param File|null $imageFile
+     */
+    public function setImageFile(? File $imageFile = null)
+    {
+        $this->imageFile = $imageFile;
+
+        if (null !== $imageFile) {
+         
+            $this->setUpdateImage(new \DateTime());
+        }
+    }
+
+    /**
+     *
+     * @return File|null
+     */
+    public function getImageFile(): ?File
+    {
+        return $this->imageFile;
+    }
+
 }

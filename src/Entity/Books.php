@@ -6,9 +6,13 @@ use App\Repository\BooksRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\HttpFoundation\File\File;
 
 /**
  * @ORM\Entity(repositoryClass=BooksRepository::class)
+ * @Vich\Uploadable
  */
 class Books
 {
@@ -21,7 +25,7 @@ class Books
 
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="string")
      */
     private $title;
 
@@ -44,23 +48,29 @@ class Books
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $file;
+    private $livre;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @Vich\UploadableField(mapping="fichier_image", fileNameProperty="livre")
+     * @var File
      */
     private $fileAttach;
 
+    /**
+     * @ORM\Column(type="datetime", nullable = true)
+     */
+    private $updateFile;
+    
     /**
      * @ORM\Column(type="string", length=255)
      */
     private $image;
 
-
     /**
-     * @ORM\Column(type="datetime")
+     * @Vich\UploadableField(mapping="livre_image", fileNameProperty="image")
+     * @var File
      */
-    private $updateFile;
+    private $imageFile;
 
     /**
      * @ORM\Column(type="datetime")
@@ -87,6 +97,7 @@ class Books
     public function __construct()
     {
         $this->comments = new ArrayCollection();
+        $this->setUpdateFile(new \DateTime('now'));
     }
     
     public function __toString()
@@ -101,13 +112,13 @@ class Books
     }
 
 
-    public function getTitle(): ?int
+    public function getTitle(): ?string
     {
         return $this->title;
     }
     
 
-    public function setTitle(int $title): self
+    public function setTitle(?string $title): self
     {
         $this->title = $title;
 
@@ -150,60 +161,106 @@ class Books
         return $this;
     }
 
-    public function getFile(): ?string
+    public function getLivre(): ?string
     {
-        return $this->file;
+        return $this->livre;
     }
 
-    public function setFile(string $file): self
+    public function setLivre(?string $livre): self
     {
-        $this->file = $file;
+        $this->livre = $livre;
 
         return $this;
     }
 
-    public function getFileAttach(): ?string
+    
+     /**
+      * Undocumented function
+      *
+      * @return File|null
+      */
+    public function getFileAttach(): ?File
     {
         return $this->fileAttach;
     }
 
-    public function setFileAttach(string $fileAttach): self
+
+     /**
+      * Undocumented function
+      *
+      * @param File|null $fileAttach
+      * 
+      */
+    public function setFileAttach(?File $fileAttach = null)
     {
         $this->fileAttach = $fileAttach;
 
-        return $this;
+        if(null !== $fileAttach)
+        {
+            $this->updateFile = new \DateTime();
+        }
     }
-
+     /**
+      * Undocumented function
+      *
+      * @return string|null
+      */
     public function getImage(): ?string
     {
         return $this->image;
     }
-
-    public function setImage(string $image): self
+     /**
+      * Undocumented function
+      *
+      * @param string|null $image
+      * @return $this
+      */
+    public function setImage(?string $image): self
     {
         $this->image = $image;
 
         return $this;
     }
-
+     /**
+      * Undocumented function
+      *
+      * @return \DateTimeInterface|null
+      */
     public function getUpdateFile(): ?\DateTimeInterface
     {
         return $this->updateFile;
     }
-
-    public function setUpdateFile(\DateTimeInterface $updateFile): self
+     
+    /**
+      * Undocumented function
+      *
+      * @param \DateTimeInterface|null $updateFile
+      * @return self
+      */
+     public function setUpdateFile(?\DateTimeInterface $updateFile): self
     {
         $this->updateFile = $updateFile;
 
         return $this;
     }
 
+     /**
+      * Undocumented function
+      *
+      * @return \DateTimeInterface|null
+      */
     public function getUpdateImage(): ?\DateTimeInterface
     {
         return $this->updateImage;
     }
 
-    public function setUpdateImage(\DateTimeInterface $updateImage): self
+     /**
+      * Undocumented function
+      *
+      * @param \DateTimeInterface|null $updateImage
+      * @return self
+      */
+    public function setUpdateImage(?\DateTimeInterface $updateImage): self
     {
         $this->updateImage = $updateImage;
 
@@ -263,6 +320,26 @@ class Books
         $this->author = $author;
 
         return $this;
+    }
+
+    /**
+     * @return File|null
+     */
+    public function getImageFile(): ?File
+    {
+        return $this->imageFile;
+    }
+
+    /**
+     * @param File|null $imageFile
+     */
+    public function setImageFile(?File $imageFile = null)
+    {
+        $this->imageFile = $imageFile;
+
+        if (null !== $imageFile) {
+            $this->updateImage = new \Datetime();
+        }
     }
 
 

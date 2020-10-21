@@ -2,13 +2,20 @@
 
 namespace App\Entity;
 
-use App\Repository\AuthorRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\AuthorRepository;
+use Doctrine\Common\Collections\Collection;
+use Symfony\Component\HttpFoundation\File\File;
+use Doctrine\Common\Collections\ArrayCollection;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+
+
 
 /**
  * @ORM\Entity(repositoryClass=AuthorRepository::class)
+ * @Vich\Uploadable
  */
 class Author
 {
@@ -29,25 +36,24 @@ class Author
      */
     private $secondName;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $imageFile;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @Vich\UploadableField(mapping="author_image", fileNameProperty="image")
+     * @var File
      */
     private $uploadImage;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=100, nullable=true)
      */
     private $image;
+    
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="datetime", nullable=true)
      */
-    private $birthday;
+    private $updated;
+
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -55,23 +61,19 @@ class Author
     private $bibliography;
 
     /**
-     * @ORM\Column(type="datetime")
-     */
-    private $updateImage;
-
-    /**
-     * @ORM\OneToMany(targetEntity=Books::class, mappedBy="author")
+     * @ORM\OneToMany(targetEntity=Books::class, cascade={"all"}, mappedBy="author")
      */
     private $book;
 
     public function __construct()
     {
         $this->book = new ArrayCollection();
+        $this->updated = new \Datetime('now');
     }
 
     public function __toString()
     {
-        return '' .$this->nomfirstName;
+        return $this->firstName;
     }
 
 
@@ -105,53 +107,66 @@ class Author
         return $this;
     }
 
-    public function getImageFile(): ?string
-    {
-        return $this->imageFile;
-    }
-
-    public function setImageFile(string $imageFile): self
-    {
-        $this->imageFile = $imageFile;
-
-        return $this;
-    }
-
-    public function getUploadImage(): ?string
+    /**
+     * @return File|null
+     */
+    public function getUploadImage(): ?File
     {
         return $this->uploadImage;
     }
 
-    public function setUploadImage(string $uploadImage): self
+    /**
+     * @param File|null $uploadImage
+     */
+    public function setUploadImage(?File $uploadImage = null)
     {
         $this->uploadImage = $uploadImage;
 
-        return $this;
+        if (null !== $uploadImage) {
+            $this->updated = new \Datetime();
+        }
     }
 
+
+    /**
+     * @return \DateTime|null
+     */
+    public function getUpdated(): ?\DateTime
+    {
+        return $this->updated;
+    }
+
+    /**
+     * @param \DateTime|null $updated
+     * @return $this
+     */
+    public function setUpdated(?\DateTime $updated): self
+    {
+        $this->updated = $updated;
+        return $this;
+    }
+     /**
+      * Undocumented function
+      *
+      * @return string|null
+      */
     public function getImage(): ?string
     {
         return $this->image;
     }
-
-    public function setImage(string $image): self
+     /**
+      * Undocumented function
+      *
+      * @param string|null $image
+      * @return $this
+      */
+    public function setImage(?string $image): self
     {
         $this->image = $image;
 
         return $this;
     }
 
-    public function getBirthday(): ?string
-    {
-        return $this->birthday;
-    }
-
-    public function setBirthday(string $birthday): self
-    {
-        $this->birthday = $birthday;
-
-        return $this;
-    }
 
     public function getBibliography(): ?string
     {
@@ -165,17 +180,6 @@ class Author
         return $this;
     }
 
-    public function getUpdateImage(): ?\DateTimeInterface
-    {
-        return $this->updateImage;
-    }
-
-    public function setUpdateImage(\DateTimeInterface $updateImage): self
-    {
-        $this->updateImage = $updateImage;
-
-        return $this;
-    }
 
     /**
      * @return Collection|Books[]

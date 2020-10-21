@@ -54,7 +54,7 @@
 						<div class="row">
 							<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 								<strong class="tg-logo">
-									<a href="index.html"><img src="images/logo.png" alt="company name here"></a>
+									<a href="index.html"><img src="{{asset('library/images/logo.png')}}" alt="company name here"></a>
 								</strong>
 								<div class="tg-wishlistandcart">
 
@@ -152,11 +152,11 @@
 									<div id="tg-navigation" class="collapse navbar-collapse tg-navigation">
 										<ul>
 											<li class="">
-												<a href="cathegories.php">All Categories</a>
+												<a href="{{path('category')}}">All Categories</a>
 											</li>
 
 											<li>
-												<a href="authors.php">Authors</a>
+												<a href="{{path('author')}}">Authors</a>
 												<ul class="sub-menu">
 													<li>
 														<a>Authors</a>
@@ -165,10 +165,7 @@
 												</ul>
 											</li>
 											<li>
-												<a href="livres.php">All books</a>
-											</li>
-											<li>
-												<a href="products.html">Weekly Sale</a>
+												<a href="{{path('livre')}}">All books</a>
 											</li>
 											<li class="menu-item-has-children">
 												<a href="javascript:void(0);">Latest News</a>
@@ -182,10 +179,7 @@
 												</a>
 												<ul class="sub-menu">
 													<li>
-														<a href="aboutus.php">About Us</a>
-													</li>
-													<li>
-														<a href="contactus.php">contact Us</a>
+														<a href="{{path('aboutus')}}">About Us</a>
 													</li>
 												</ul>
 											</li>
@@ -200,6 +194,9 @@
 													</li>
 													<li>
 														<a href="authordetail.html">create your count</a>
+													</li>
+														<li>
+														<a href="{{path('admin')}}">Admin connexion </a>
 													</li>
 												</ul>
 											</li>

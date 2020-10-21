@@ -29,7 +29,7 @@ class Comment
 
     /**
      * @ORM\ManyToOne(targetEntity=Books::class, inversedBy="comments")
-     * @ORM\JoinColumn(nullable=false)
+     * 
      */
     private $book;
 
@@ -38,6 +38,11 @@ class Comment
      * @ORM\JoinColumn(nullable=false)
      */
     private $users;
+
+    public function __construct()
+    {
+      $this->getCreatedAt(new \DateTime('now'));
+    }
 
     public function getId(): ?int
     {

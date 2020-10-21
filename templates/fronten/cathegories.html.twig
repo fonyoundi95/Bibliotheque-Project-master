@@ -1,5 +1,4 @@
-{% extends 'base.html.twig' %}
-
+{% extends 'base1.html.twig' %}
 {% block body %}
 
 <!--************************************
@@ -10,7 +9,7 @@
 	<!--************************************
 			Best Selling Start		
 	*************************************-->
-	<section class="tg-parallax tg-bgcalltoaction tg-haslayout" data-z-index="-100" data-appear-top-offset="600" data-parallax="scroll" data-image-src="images/parallax/bgparallax-06.jpg">
+	<section class="tg-parallax tg-bgcalltoaction tg-haslayout" data-z-index="-100" data-appear-top-offset="600" data-parallax="scroll" data-image-src="{{asset('library/images/parallax/bgparallax-06.jpg')}}">
 		<div class="tg-sectionspace tg-haslayout">
 			<div class="container">
 				<div class="row">
@@ -45,8 +44,8 @@
 				<div id="tg-postslider" class="tg-postslider tg-blogpost owl-carousel">
 					<article class="item tg-post">
 						<figure>
-							<a href="livres.php"><img src="images/blog/img-01.jpg" alt="image description"></a>
-							<a class="tg-btnaddtowishlist" href="livres.php">
+							<a href="{{path('show_category')}}"><img src="{{asset('library/images/blog/img-01.jpg')}}" alt="image description"></a>
+							<a class="tg-btnaddtowishlist" href="{{path('show_category')}}">
 								<i class="icon-heart"></i>
 								<span>show</span>
 							</a>
@@ -66,8 +65,8 @@
 					</article>
 					<article class="item tg-post">
 						<figure>
-							<a href="livres.php"><img src="images/blog/img-02.jpg" alt="image description"></a>
-							<a class="tg-btnaddtowishlist" href="livres.php">
+							<a href="{{path('show_category')}}"><img src="{{asset('library/images/blog/img-02.jpg')}}" alt="image description"></a>
+							<a class="tg-btnaddtowishlist" href="{{path('show_category')}}">
 								<i class="icon-heart"></i>
 								<span>show</span>
 							</a>
@@ -87,8 +86,8 @@
 					</article>
 					<article class="item tg-post">
 						<figure>
-							<a href="livres.php"><img src="images/blog/img-03.jpg" alt="image description"></a>
-							<a class="tg-btnaddtowishlist" href="livres.php">
+							<a href="{{path('show_category')}}"><img src="{{asset('library/images/blog/img-03.jpg')}}" alt="image description"></a>
+							<a class="tg-btnaddtowishlist" href="{{path('show_category')}}">
 								<i class="icon-heart"></i>
 								<span>show</span>
 							</a>
@@ -108,8 +107,8 @@
 					</article>
 					<article class="item tg-post">
 						<figure>
-							<a href="livres.php"><img src="images/blog/img-04.jpg" alt="image description"></a>
-							<a class="tg-btnaddtowishlist" href="livres.php">
+							<a href="{{path('show_category')}}"><img src="{{asset('library/images/blog/img-04.jpg')}}" alt="image description"></a>
+							<a class="tg-btnaddtowishlist" href="{{path('show_category')}}">
 								<i class="icon-heart"></i>
 								<span>show</span>
 							</a>
@@ -129,8 +128,8 @@
 					</article>
 					<article class="item tg-post">
 						<figure>
-							<a href="livres.php"><img src="images/blog/img-02.jpg" alt="image description"></a>
-							<a class="tg-btnaddtowishlist" href="livress.php">
+							<a href="{{path('show_category')}}"><img src="{{asset('library/images/blog/img-02.jpg')}}" alt="image description"></a>
+							<a class="tg-btnaddtowishlist" href="{{path('show_category')}}">
 								<i class="icon-heart"></i>
 								<span>show</span>
 							</a>
@@ -150,8 +149,8 @@
 					</article>
 					<article class="item tg-post">
 						<figure>
-							<a href="livres.php"><img src="images/blog/img-03.jpg" alt="image description">
-								<a class="tg-btnaddtowishlist" href="livres.php">
+							<a href="{{path('show_category')}}"><img src="{{asset('library/images/blog/img-03.jpg')}}" alt="image description">
+								<a class="tg-btnaddtowishlist" href="{{path('show_category')}}">
 									<i class="icon-heart"></i>
 									<span>show</span>
 								</a>

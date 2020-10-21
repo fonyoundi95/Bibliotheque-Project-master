@@ -2,7 +2,20 @@
 vich_uploader:
     db_driver: orm
 
-    #mappings:
-    #    products:
-    #        uri_prefix: /images/products
-    #        upload_destination: '%kernel.project_dir%/public/images/products'
+    mappings:
+      cathegory_image:
+           uri_prefix: /uploads/category
+           upload_destination: '%kernel.project_dir%/public/uploads/cathegory'
+           namer: Vich\UploaderBundle\Naming\UniqidNamer
+      author_image:
+           uri_prefix: /uploads/author
+           upload_destination: '%kernel.project_dir%/public/uploads/cathegory'
+           namer: Vich\UploaderBundle\Naming\UniqidNamer 
+      livre_image:
+           uri_prefix: /uploads/livre
+           upload_destination: '%kernel.project_dir%/public/uploads/livre'
+           namer: Vich\UploaderBundle\Naming\UniqidNamer 
+      fichier_image:
+           uri_prefix: /uploads/fichier
+           upload_destination: '%kernel.project_dir%/public/uploads/fichier'
+           namer: Vich\UploaderBundle\Naming\UniqidNamer        
